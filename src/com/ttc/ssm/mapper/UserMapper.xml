@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ttc.ssm.mapper.UserMapper">
+    <select id="Login" parameterType="Student_info" resultType="Student_info">
+        select * from Student_info where student_name = #{student_name} and student_pass = #{student_pass}
+    </select>
+</mapper>

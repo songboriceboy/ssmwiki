@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ttc.ssm.mapper.TagMapper" >
+    <select id="FindAllTag" resultType="Tag_info">
+        select * from Tag_info
+    </select>
+    <select id="FindAllTagFront" resultType="Tag_info">
+        select * from Tag_info where id in (select DISTINCT tagid from article_info)
+    </select>
+    <insert id="AddTag" parameterType="Tag_info" useGeneratedKeys="true" keyProperty="id">
+        insert into Tag_info(tag_name) values(#{tag_name})
+    </insert>
+
+    <delete id="DeleteTag" parameterType="int">
+        DELETE from Tag_info where id = #{value}
+    </delete>
+
+    <select id="GetTagInfobyId" parameterType="int" resultType="Tag_info">
+        select * from Tag_info where id = #{value}
+    </select>
+
+    <update id="UpdateTagInfo" parameterType="Tag_info">
+        update Tag_info set tag_name = #{tag_name},tag_picpath=#{tag_picpath},tag_desc=#{tag_desc} where id = #{id}
+    </update>
+</mapper>

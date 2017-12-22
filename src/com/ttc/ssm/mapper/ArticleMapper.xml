@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ttc.ssm.mapper.ArticleMapper" >
+    <select id="GetAllArticles" resultType="Article_info" parameterType="int">
+        SELECT * from article_info where tagid = #{value}
+    </select>
+    <select id="GetRootNode" resultType="Article_info" parameterType="int">
+         SELECT * from article_info where parent = '#' and tagid=#{value}
+    </select>
+    <select id="GetChildNodes" resultType="Article_info" parameterType="Article_info">
+        SELECT * from article_info where parent = #{id} and tagid=#{tagid} order by id desc
+    </select>
+    <insert id="InsertArticles" parameterType="Article_info" useGeneratedKeys="true" keyProperty="id">
+       insert Article_info (parent,text,article_content,tagid) VALUES (#{parent},#{text},#{article_content},#{tagid})
+    </insert>
+    <delete id="DelArticles" parameterType="int">
+        delete from Article_info where id = #{value} or parent = #{value}
+    </delete>
+    <update id="updateArticles" parameterType="Article_info">
+        update Article_info set text = #{text} where id = #{id}
+    </update>
+    <update id="updateArticlesParentid" parameterType="Article_info">
+        update Article_info set parent = #{parent},article_content=#{article_content} where id = #{id}
+    </update>
+    <select id="GetTrueArticle" resultType="Article_info_true" parameterType="int">
+         select article_info_true.id,article_info_true.nodeid,article_info_true.mark_content,article_info_true.article_content,article_info.text as article_title from article_info_true
+join article_info on article_info.id = article_info_true.nodeid
+ where nodeid = #{value}
+    </select>
+    <insert id="InsertTrueArticles" parameterType="Article_info_true" useGeneratedKeys="true" keyProperty="id">
+        insert Article_info_true (article_title,article_content,nodeid,mark_content) VALUES (#{article_title},#{article_content},#{nodeid},#{mark_content})
+    </insert>
+    <update id="updateTrueArticles" parameterType="Article_info_true">
+        update Article_info_true set article_title = #{article_title},
+          article_content = #{article_content}, nodeid = #{nodeid}, mark_content = #{mark_content}
+         where id = #{id}
+    </update>
+</mapper>
